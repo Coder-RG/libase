@@ -1,4 +1,27 @@
+import mysql.connector
 from tkinter import *
+
+#Creating a connection to the database
+mydb = mysql.connector.connect(
+    host = "127.0.0.2",
+    port = "3306",
+    user = "root",
+    password = "Rishabh#",
+    database = "std_info"
+)
+mycursor = mydb.cursor()
+
+mycursor.execute("Create database if not exists std_info")
+
+mycursor.execute("Create table if not exists std_data (first_name VARCHAR(30), middle_name VARCHAR(30), last_name VARCHAR(30), roll_no VARCHAR(30))"
+)
+
+# mycursor.execute(
+#     "Insert into std_data (first_name, last_name, roll_no) values('Rishabh','Goel', '17/ICS/073')"
+# )
+# mydb.commit()
+# mycursor.execute("Select * from std_data")
+# result = mycursor.fetchall()
 
 root = Tk()
 root.title("Student Data")
@@ -10,10 +33,23 @@ testing = Frame(root, padx=10, pady=10)
 #Contains the function for needed for the command option in Label
 
 def retrieve():
-    Label(testing, text=first_name_entry.get()).pack()
-    Label(testing, text=middle_name_entry.get()).pack()
-    Label(testing, text=last_name_entry.get()).pack()
-    Label(testing, text=roll_entry.get()).pack()
+    query = "Select * from std_data"
+    mycursor.execute(query)
+    result = mycursor.fetchall()
+    for x in result:
+        Label(testing, text=x).pack(side=TOP)
+
+def add_to_db():
+    val = (
+        first_name_entry.get(),
+        middle_name_entry.get(),
+        last_name_entry.get(),
+        roll_entry.get()
+    )
+    query = "Insert into std_data values (%s,%s,%s,%s)"
+    mycursor.execute(query, val)
+    mydb.commit()
+    # Label(details, text=mycursor.rowcount).pack()
 
 #Contains all the text fields
 first_name = Label(details, text="First Name: ")
@@ -28,9 +64,9 @@ last_name_entry = Entry(details)
 roll = Label(details, text="Book Title")
 roll_entry = Entry(details)
 
-test = Button(testing, text="Test here!", command=retrieve)
+test = Button(testing, text="Show data!", command=retrieve)
 
-more_options = Button(details, text="Show more fields? Click Here!")
+more_options = Button(details, text="Submit", command=add_to_db)
 
 #Frames are shown using pack()
 details.pack()
