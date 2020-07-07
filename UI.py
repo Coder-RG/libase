@@ -21,8 +21,14 @@ root.title("Student Data")
 root.geometry("500x400")
 
 lst = ["First Name", "Middle Name", "Last Name", "Roll No", "Batch", "Specializaton", "State", "City"]
+list_labels = ["first_name", "middle_name", "last_name", "roll_no", "batch", "specialization", "state", "city"]
 
 def add_data_op():
+    global frame_main
+    try:
+        frame_main.destroy()
+    except:
+        pass
     frame_main = Frame(root, padx=5, bd=5, bg="#EEE8AA")
     frame_main.pack(side=LEFT, fill=BOTH, expand=True)
     Label(frame_main, text="Student Data", font=("Pacifico", "30"), bg="#EEE8AA", anchor=CENTER).grid(row=0, column=0, columnspan=8)
@@ -106,16 +112,50 @@ def add_data_op():
     test.grid(row=7, column=1, sticky=W, padx=5, pady=5)
     clear.grid(row=7, column=2, sticky=W, padx=5, pady=5)
 
-def modify_data_op():
-    pass
-
 def view_data_op():
+    # global list_labels
+    global frame_main
+    try:
+        frame_main.destroy()
+    except:
+        pass
+    frame_main = Frame(root, padx=5, bd=5, bg="#EEE8AA")
+    frame_main.pack(side=LEFT, fill=BOTH, expand=True)
+    heading = Label(frame_main, text="Student Data", font=("Pacifico", "30"), bg="#EEE8AA")
+    heading.pack()#grid(row=0, column=0, columnspan=8)
+    v = [IntVar() for _ in range(8)]
+    for index, name in enumerate(lst):
+        Checkbutton(frame_main, text=name, variable=v[index], bg="#EEE8AA", width=10, anchor=W).pack()
+
+    def get_selected_options():
+        view_data = Frame(frame_main, bg="#EEE8AA")
+        view_data.pack()
+        values = [value.get() for value in v]
+        selected = [name for name, value in zip(list_labels, values) if value]
+        selected_text = ','.join(selected)
+        query = "Select {} from std_data".format(selected_text)
+        mycursor.execute(query)
+        result = mycursor.fetchall()
+        for index, name in enumerate(selected):
+            Label(view_data, text=name, bg="#EEE8AA").grid(row=0, column=index)
+        for x in range(len(result)):
+            for index, y in enumerate(result[x]):
+                Label(view_data, text=y, bg="#EEE8AA", anchor=W).grid(row=x+1, column=index)
+
+    selected_options = Button(frame_main, text="Submit", command=get_selected_options)
+    selected_options.pack()
+
+
+def modify_data_op():
     pass
 
 frame_menu = Frame(root, padx=5,bd=5, bg="#696969")
 frame_menu.pack(side=LEFT, fill=BOTH)
-Button(frame_menu, text="Add Data", width=10, bg="#FFFFFF", command=add_data_op).grid(row=0, column=0, padx=2, pady=2)
-Button(frame_menu, text="Modify Data", width=10, bg="#FFFFFF", command=modify_data_op).grid(row=1, column=0, padx=2, pady=2)
-Button(frame_menu, text="View Data", width=10, bg="#FFFFFF", command=view_data_op).grid(row=2, column=0, padx=2, pady=2)
+add_data = Button(frame_menu, text="Add Data", width=10, bg="#FFFFFF", command=add_data_op)
+add_data.grid(row=0, column=0, padx=2, pady=2)
+modify_data = Button(frame_menu, text="Modify Data", width=10, bg="#FFFFFF", command=modify_data_op)
+modify_data.grid(row=1, column=0, padx=2, pady=2)
+view_data = Button(frame_menu, text="View Data", width=10, bg="#FFFFFF", command=view_data_op)
+view_data.grid(row=2, column=0, padx=2, pady=2)
 
 root.mainloop()
