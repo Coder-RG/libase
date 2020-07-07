@@ -3,11 +3,11 @@ from tkinter import *
 
 #Creating a connection to the database
 mydb = mysql.connector.connect(
-    host = "127.0.0.2",
-    port = "3306",
-    user = "root",
-    password = "Rishabh#",
-    database = "std_info"
+    host = "host",
+    port = "port",
+    user = "user",
+    password = "password",
+    database = "database"
 )
 mycursor = mydb.cursor()
 
@@ -18,7 +18,8 @@ mycursor = mydb.cursor()
 #Creating the widgets
 root = Tk()
 root.title("Student Data")
-root.geometry("500x400")
+# root.geometry("600x600")
+root.state('zoomed')
 
 lst = ["First Name", "Middle Name", "Last Name", "Roll No", "Batch", "Specializaton", "State", "City"]
 list_labels = ["first_name", "middle_name", "last_name", "roll_no", "batch", "specialization", "state", "city"]
