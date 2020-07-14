@@ -1,16 +1,15 @@
 import mysql.connector
 
 mydb = mysql.connector.connect(
-    host = "127.0.0.2",
+    host = "localhost",
     user = "root",
-    password = "Rishabh#",
-    database = "mydatabase"
+    password = "password",
 )
 
 mycursor = mydb.cursor()
 #Created a database:
 mycursor.execute("CREATE DATABASE mydatabase")
-
+mycursor.execute("USE mydatabase")
 #Added table customers:
 mycursor.execute("CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20), address VARCHAR(20))")
 
