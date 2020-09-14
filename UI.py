@@ -3,17 +3,19 @@ from tkinter import *
 
 #Creating a connection to the database
 mydb = mysql.connector.connect(
-    host = "host",
-    port = "port",
-    user = "user",
-    password = "password",
-    database = "database"
+    host = "localhost",
+    # port = "port",
+    user = "root",
+    password = "yourpassword",
+    # database = "database"
 )
 mycursor = mydb.cursor()
 
-# mycursor.execute("Create database if not exists std_info")
-# mycursor.execute("Create table if not exists std_data (first_name VARCHAR(30), middle_name VARCHAR(30), last_name VARCHAR(30), roll_no VARCHAR(30))")
-# mydb.commit()
+mycursor.execute("Create database if not exists std_info")
+mycursor.execute("Use std_info")
+mycursor.execute("Create table if not exists std_data (first_name VARCHAR(30), middle_name VARCHAR(30), last_name VARCHAR(30), roll_no VARCHAR(30),\
+                  batch VARCHAR(5), specialization VARCHAR(20), state VARCHAR(40), city VARCHAR(40))")
+mydb.commit()
 
 #Creating the widgets
 root = Tk()
