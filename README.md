@@ -1,5 +1,17 @@
 # libase
-- Creating this repository to learn SQL and also implement a database for a library in the process.
-- Wil be implementing sql through python and wil be using mysql-connector-python
 
-This is everything that I could possibly do in a short span of time. if you want to learn mysql or tkinter you may use this repo.
+This repo was built to learn MySQL using python.
+
+## Modules used
+- Tkinter
+- mysql-connector-python
+
+## Requirements to run the files
+- Python
+- MySQL
+- mysql-connector-python
+- Tkinter (If not installed already)
+
+Following are some images of the application.
+![libase1](/images/libase1.PNG)
+![libase2](/images/libase2.PNG)
